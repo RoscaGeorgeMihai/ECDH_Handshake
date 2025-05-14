@@ -137,11 +137,13 @@
     <ClCompile Include="HandshakeManager.cpp" />
     <ClCompile Include="PubKeyMAC_Asn1.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="SymElements_Asn1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h" />
     <ClInclude Include="HandshakeManager.h" />
     <ClInclude Include="PubKeyMAC_Asn1.h" />
+    <ClInclude Include="SymElements_Asn1.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

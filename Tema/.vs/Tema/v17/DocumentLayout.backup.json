@@ -1,26 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\",
+  "WorkspaceRootPath": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\Tema\\Source.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|solutionrelative:Tema\\Source.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\Tema\\Entity.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|solutionrelative:Tema\\Entity.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\Tema\\HandshakeManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\Tema\\HandshakeManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|solutionrelative:Tema\\HandshakeManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\Tema\\Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|solutionrelative:Tema\\Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\Tema\\HandshakeManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|solutionrelative:Tema\\HandshakeManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\Tema\\HandshakeManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|solutionrelative:Tema\\HandshakeManager.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\Tema\\Source.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|solutionrelative:Tema\\Source.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\Tema\\Entity.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|solutionrelative:Tema\\Entity.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\Tema\\Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B42CE89D-459C-4F7B-966C-115BC0C00064}|Tema\\Tema.vcxproj|solutionrelative:Tema\\Entity.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,22 +30,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Entity.h",
-              "DocumentMoniker": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\Tema\\Entity.h",
-              "RelativeDocumentMoniker": "Tema\\Entity.h",
-              "ToolTip": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\Tema\\Entity.h",
-              "RelativeToolTip": "Tema\\Entity.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-05-10T15:22:06.779Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
@@ -53,51 +39,64 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "Entity.h",
+              "DocumentMoniker": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\Tema\\Entity.h",
+              "RelativeDocumentMoniker": "Tema\\Entity.h",
+              "ToolTip": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\Tema\\Entity.h",
+              "RelativeToolTip": "Tema\\Entity.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-05-13T20:18:46.112Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Entity.cpp",
+              "DocumentMoniker": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\Tema\\Entity.cpp",
+              "RelativeDocumentMoniker": "Tema\\Entity.cpp",
+              "ToolTip": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\Tema\\Entity.cpp",
+              "RelativeToolTip": "Tema\\Entity.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-05-13T20:15:47.617Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "HandshakeManager.h",
-              "DocumentMoniker": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\Tema\\HandshakeManager.h",
+              "DocumentMoniker": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\Tema\\HandshakeManager.h",
               "RelativeDocumentMoniker": "Tema\\HandshakeManager.h",
-              "ToolTip": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\Tema\\HandshakeManager.h",
+              "ToolTip": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\Tema\\HandshakeManager.h",
               "RelativeToolTip": "Tema\\HandshakeManager.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-05-11T20:43:47.332Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Entity.cpp",
-              "DocumentMoniker": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\Tema\\Entity.cpp",
-              "RelativeDocumentMoniker": "Tema\\Entity.cpp",
-              "ToolTip": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\Tema\\Entity.cpp",
-              "RelativeToolTip": "Tema\\Entity.cpp",
-              "ViewState": "AgIAAJIAAAAAAAAAAAAlwAQBAAA/AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-05-11T20:19:03.349Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "HandshakeManager.cpp",
-              "DocumentMoniker": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\Tema\\HandshakeManager.cpp",
+              "DocumentMoniker": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\Tema\\HandshakeManager.cpp",
               "RelativeDocumentMoniker": "Tema\\HandshakeManager.cpp",
-              "ToolTip": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\Tema\\HandshakeManager.cpp",
+              "ToolTip": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\Tema\\HandshakeManager.cpp",
               "RelativeToolTip": "Tema\\HandshakeManager.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAGcAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-05-11T20:45:15.994Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Source.cpp",
-              "DocumentMoniker": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\Tema\\Source.cpp",
+              "DocumentMoniker": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\Tema\\Source.cpp",
               "RelativeDocumentMoniker": "Tema\\Source.cpp",
-              "ToolTip": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\TEMA2\\Tema\\Tema\\Source.cpp",
+              "ToolTip": "D:\\MATERIALE ACADEMIE\\ANUL III SEMN 2\\CRIPTO\\ECDH_Handshake\\Tema\\Tema\\Source.cpp",
               "RelativeToolTip": "Tema\\Source.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAApAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-05-10T15:12:39.703Z",
               "EditorCaption": ""

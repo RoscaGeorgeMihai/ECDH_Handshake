@@ -1,8 +1,4 @@
-﻿  Entity.cpp
-D:\MATERIALE ACADEMIE\ANUL III SEMN 2\CRIPTO\TEMA2\Tema\Tema\Entity.cpp(109,57): warning C4267: 'argument': conversion from 'size_t' to 'long', possible loss of data
-D:\MATERIALE ACADEMIE\ANUL III SEMN 2\CRIPTO\TEMA2\Tema\Tema\Entity.cpp(133,66): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\MATERIALE ACADEMIE\ANUL III SEMN 2\CRIPTO\TEMA2\Tema\Tema\Entity.cpp(194,111): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\MATERIALE ACADEMIE\ANUL III SEMN 2\CRIPTO\TEMA2\Tema\Tema\Entity.cpp(276,59): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\MATERIALE ACADEMIE\ANUL III SEMN 2\CRIPTO\TEMA2\Tema\Tema\Entity.cpp(299,67): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-     Creating library D:\MATERIALE ACADEMIE\ANUL III SEMN 2\CRIPTO\TEMA2\Tema\x64\Debug\Tema.lib and object D:\MATERIALE ACADEMIE\ANUL III SEMN 2\CRIPTO\TEMA2\Tema\x64\Debug\Tema.exp
-  Tema.vcxproj -> D:\MATERIALE ACADEMIE\ANUL III SEMN 2\CRIPTO\TEMA2\Tema\x64\Debug\Tema.exe
+﻿  HandshakeManager.cpp
+  Source.cpp
+  Generating Code...
+  Tema.vcxproj -> D:\MATERIALE ACADEMIE\ANUL III SEMN 2\CRIPTO\ECDH_Handshake\Tema\x64\Debug\Tema.exe
