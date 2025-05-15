@@ -62,7 +62,21 @@ Entity::~Entity()
 		RSA_free(this->RSA_key);
 }
 
-bool Entity::load_ECC_private_key(string password)
+void Entity::register_entity()
+{
+	this->generate_ECC_key_pair();
+	this->save_ECC_private_key();
+	this->save_ECC_pub_key();
+	
+	this->generate_RSA_key_pair();
+	this->save_RSA_private_key();
+	this->save_RSA_pub_key();
+
+	this->generate_and_save_MAC(this->get_ECC_pub_key_file());
+	this->generate_and_save_MAC(this->get_RSA_pub_key_file());
+}
+
+bool Entity::load_ECC_private_key()
 {
 	FILE* file = fopen(this->get_ECC_prv_key_file().c_str(), "r");
 	if (file == nullptr) {
@@ -70,7 +84,7 @@ bool Entity::load_ECC_private_key(string password)
 		return false;
 	}
 
-	this->EC_key = PEM_read_ECPrivateKey(file, nullptr, nullptr, const_cast<char*>(password.c_str()));
+	this->EC_key = PEM_read_ECPrivateKey(file, nullptr, nullptr, const_cast<char*>(this->password.c_str()));
 
 	if (this->EC_key == nullptr) {
 		std::cerr << "Something went wrong while trying to load the ECC private key for entity: " << this->id << " : {the key couldn't be read}\n";
@@ -80,7 +94,7 @@ bool Entity::load_ECC_private_key(string password)
 	return true;
 }
 
-bool Entity::load_RSA_private_key(string passowrd)
+bool Entity::load_RSA_private_key()
 {
 	string filename = this->get_RSA_prv_key_file();
 	FILE* file = fopen(filename.c_str(), "r");
@@ -89,7 +103,7 @@ bool Entity::load_RSA_private_key(string passowrd)
 		return false;
 	}
 
-	this->RSA_key = PEM_read_RSAPrivateKey(file, nullptr, nullptr, const_cast<char*>(password.c_str()));
+	this->RSA_key = PEM_read_RSAPrivateKey(file, nullptr, nullptr, const_cast<char*>(this->password.c_str()));
 
 	if (this->RSA_key == nullptr) {
 		std::cerr << "Something went wrong while trying to load the ECC private key for entity: " << this->id << " : {the key couldn't be read}\n";
@@ -99,17 +113,24 @@ bool Entity::load_RSA_private_key(string passowrd)
 	return true;
 }
 
-bool Entity::load_ECC_public_key(unsigned char** der_mac,size_t* der_len)
+bool Entity::load_RSA_public_key()
 {
-	FILE* file = fopen(this->get_ECC_pub_key_file().c_str(), "r");
-	if (file == nullptr) {
-		std::cerr << "Something went wrong while trying to load the ECC public key for entity: " << this->id << " : {the file can't be opened}\n";
+	string filename = this->get_RSA_pub_key_file();
+	FILE* file = fopen(filename.c_str(), "r");
+
+	this->RSA_key = PEM_read_RSAPublicKey(file, nullptr, nullptr, nullptr);
+
+	if (this->RSA_key == nullptr) {
+		std::cerr << "Something went wrong while trying to load the ECC private key for entity: " << this->id << " : {the public key couldn't be read}\n";
 		return false;
 	}
-
-	this->EC_key = PEM_read_EC_PUBKEY(file, nullptr, nullptr, nullptr);
 	fclose(file);
+	
+	return true;
+}
 
+bool Entity::load_ECC_key_mac(unsigned char** der_mac,size_t* der_len)
+{
 	string mac_filename = this->get_ECC_mac_file();
 
 	FILE* mac_file = fopen(mac_filename.c_str(), "rb");
@@ -119,41 +140,35 @@ bool Entity::load_ECC_public_key(unsigned char** der_mac,size_t* der_len)
 
 	*der_mac = (unsigned char*)malloc(*der_len);
 	fread(*der_mac, *der_len, 1, mac_file);
-
+	fclose(mac_file);
 	return true;
 }
 
-bool Entity::load_RSA_public_key(unsigned char** der_mac, size_t* der_len)
+bool Entity::load_RSA_key_mac(unsigned char** der_mac, size_t* der_len)
 {
-	FILE* file = fopen(this->get_RSA_pub_key_file().c_str(), "r");
-	if (file == nullptr) {
-		std::cerr << "Something went wrong while trying to load the RSA public key for entity: " << this->id << " : {the file can't be opened}\n";
+	string mac_filename = this->get_RSA_mac_file();
+
+	FILE* mac_file = fopen(mac_filename.c_str(), "rb");
+	if (mac_file == nullptr)
 		return false;
-	}
+	fseek(mac_file, 0, SEEK_END);
+	*der_len = ftell(mac_file);
+	fseek(mac_file, 0, SEEK_SET);
 
-	EVP_PKEY* evp_key = PEM_read_PUBKEY(file, nullptr, nullptr, nullptr);
-	if (evp_key == nullptr) {
-		std::cerr << "Something went wrong while trying to load the RSA public key for entity: " << this->id << " : {the key can't be loaded}\n";
-		return false;
-	}
-
-	this->RSA_key = EVP_PKEY_get1_RSA(evp_key);
-	EVP_PKEY_free(evp_key);
-	fclose(file);
-
-	if (this->RSA_key == nullptr) {
-		std::cerr << "Something went wrong while trying to load the RSA public key for entity: " << this->id << " : {the RSA key can't be extracted from EVP_PKEY}\n";
-		return false;
-	}
-
-
+	*der_mac = (unsigned char*)malloc(*der_len);
+	fread(*der_mac, *der_len, 1, mac_file);
+	fclose(mac_file);
 	return true;
 }
 
-bool Entity::verify_public_key_mac(unsigned char* der_mac, size_t der_len)
+bool Entity::verify_public_key_mac(string key_filename,unsigned char* der_mac, size_t der_len)
 {
 	size_t raw_pub_len = 0;
-	unsigned char* raw_pub_key = get_raw_ECC_public_key(&raw_pub_len);
+	unsigned char* raw_pub_key = nullptr;
+	if (key_filename.find("ecc") != string::npos)
+		raw_pub_key = get_raw_ECC_public_key(&raw_pub_len);
+	else if (key_filename.find("rsa") != string::npos)
+		raw_pub_key = get_raw_RSA_public_key(&raw_pub_len);
 
 	if (raw_pub_len <= 0) {
 		std::cerr << "Something went wrong while trying to verify the public key for entity with id " << this->id << " : {raw_pub_key is empty}\n";
@@ -208,23 +223,24 @@ unsigned char* Entity::get_raw_RSA_public_key(size_t* raw_pub_len)
 {
 	if (this->RSA_key == nullptr) {
 		std::cerr << "Something went wrong while trying to get the raw RSA public key for entity with id " << this->id << " : {there is no RSA key assigned}\n";
-		return false;
+		return nullptr;
 	}
 
 	int raw_len = i2d_RSAPublicKey(this->RSA_key, nullptr);
 
 	if (raw_len <= 0) {
 		std::cerr << "Something  went wrong while trying to get the raw RSA public key for entity with id " << this->id << " : {can't get the raw key\n}";
-		return false;
+		return nullptr;
 	}
 
 	*raw_pub_len = static_cast<size_t>(raw_len);
 	unsigned char* raw_pub_buff = (unsigned char*)OPENSSL_malloc(*raw_pub_len);
 
-	raw_len = i2d_RSAPublicKey(this->RSA_key, &raw_pub_buff);
+	unsigned char* p = raw_pub_buff;
+	raw_len = i2d_RSAPublicKey(this->RSA_key, &p);
 	if (raw_len <= 0) {
 		std::cerr << "Something  went wrong while trying to get the raw RSA public key for entity with id " << this->id << " : {can't serialize the public key to DER format\n}";
-		return false;
+		return nullptr;
 	}
 
 	return raw_pub_buff;
@@ -263,7 +279,7 @@ bool Entity::generate_RSA_key_pair()
 	return true;
 }
 
-bool Entity::save_ECC_private_key(string password)
+bool Entity::save_ECC_private_key()
 {
 	string filename = to_string(this->id);
 	filename += "_priv.ecc";
@@ -284,18 +300,18 @@ bool Entity::save_ECC_private_key(string password)
 	}
 	EVP_PKEY_assign(pKey,EVP_PKEY_EC,EC_KEY_dup(this->EC_key));
 
-	if (PEM_write_bio_PrivateKey(file, pKey, EVP_aes_256_cbc(), (unsigned char*)password.c_str(), password.length(), nullptr, nullptr) != 1) {
+	if (PEM_write_bio_PrivateKey(file, pKey, EVP_aes_256_cbc(), (unsigned char*)this->password.c_str(), password.length(), nullptr, nullptr) != 1) {
 		std::cerr << "Something went wrong while trying to save the ECC private key for entity with id " << this->id << " : {the key can't be written in the PEM file}\n";
 		return false;
 	}
 
 	EVP_PKEY_free(pKey);
-	BIO_free(file);
+	BIO_free_all(file);
 
 	return true;
 }
 
-bool Entity::save_RSA_private_key(string password)
+bool Entity::save_RSA_private_key()
 {
 	string filename = this->get_RSA_prv_key_file();
 	if (this->RSA_key == nullptr) {
@@ -309,12 +325,12 @@ bool Entity::save_RSA_private_key(string password)
 		return false;
 	}
 
-	if (PEM_ASN1_write_bio((i2d_of_void*)i2d_RSAPrivateKey,PEM_STRING_RSA,file,this->RSA_key,EVP_aes_256_cbc(),(unsigned char*)password.c_str(),password.length(),nullptr,nullptr) != 1) {
+	if (PEM_ASN1_write_bio((i2d_of_void*)i2d_RSAPrivateKey,PEM_STRING_RSA,file,this->RSA_key,EVP_aes_256_cbc(),(unsigned char*)this->password.c_str(),password.length(),nullptr,nullptr) != 1) {
 		std::cerr << "Something went wrong while trying to save the RSA private key for entity with id " << this->id << " : {the key can't be written in the PEM file}\n";
 		return false;
 	}
 
-	BIO_free(file);
+	BIO_free_all(file);
 	return true;
 }
 
@@ -370,7 +386,7 @@ bool Entity::save_ECC_pub_key()
 		return false;
 	}
 
-	BIO_free(file);
+	BIO_free_all(file);
 	return true;
 }
 
@@ -394,7 +410,7 @@ bool Entity::save_RSA_pub_key()
 		return false;
 	}
 
-	BIO_free(file);
+	BIO_free_all(file);
 	return true;
 }
 
@@ -402,9 +418,9 @@ bool Entity::generate_and_save_MAC(string pub_key_file)
 {
 	size_t raw_pub_key_len;
 	unsigned char* raw_pub_key = nullptr;
-	if (pub_key_file.find("ecc"))
+	if (pub_key_file.find("ecc")!=string::npos)
 		raw_pub_key = get_raw_ECC_public_key(&raw_pub_key_len);
-	else if (pub_key_file.find("rsa"))
+	else if (pub_key_file.find("rsa")!=string::npos)
 		raw_pub_key = get_raw_RSA_public_key(&raw_pub_key_len);
 
 	string time_diff = this->calculate_time_difference();
@@ -481,9 +497,9 @@ bool Entity::generate_and_save_MAC(string pub_key_file)
 		return false;
 	}
 	string mac_filename;
-	if (pub_key_file.find("rsa"))
+	if (pub_key_file.find("rsa")!=string::npos)
 		mac_filename = this->get_RSA_mac_file();
-	else if (pub_key_file.find("ecc"))
+	else if (pub_key_file.find("ecc")!=string::npos)
 		mac_filename = this->get_ECC_mac_file();
 	ofstream mac_file(mac_filename, ios::binary | ios::out);
 
@@ -501,6 +517,5 @@ bool Entity::generate_and_save_MAC(string pub_key_file)
 	free(gmac_iv);
 	free(sym_gmac_key);
 	EVP_CIPHER_CTX_free(gmac_ctx);
-	OPENSSL_free(raw_pub_key);
 	return true;
 }

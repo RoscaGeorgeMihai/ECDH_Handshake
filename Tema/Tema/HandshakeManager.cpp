@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+﻿#define _CRT_SECURE_NO_WARNINGS
 #pragma warning(disable : 4996)
 #include "HandshakeManager.h"
 #include "SymElements_Asn1.h"
@@ -41,19 +41,29 @@ bool HandshakeManager::change_entities(Entity* entity1, Entity* entity2)
 
 bool HandshakeManager::load_keys_and_verify_MAC(Entity* entity)
 {
-	entity->load_ECC_private_key(entity->get_password());
+	entity->load_ECC_private_key();
 	unsigned char* der_mac = nullptr;
 	size_t der_mac_len = 0;
-	entity->load_ECC_public_key(&der_mac, &der_mac_len);
-	if (!entity->verify_public_key_mac(der_mac, der_mac_len)) {
+	entity->load_ECC_key_mac(&der_mac, &der_mac_len);
+	if (!entity->verify_public_key_mac(entity->get_ECC_pub_key_file(), der_mac, der_mac_len)) {
 		std::cerr << "Something went wrong while trying to establish the handshake: {entity with id: "<< entity->get_id() << " doesn't have a valid public key}\n";
 		return false;
 	}
-
+	free(der_mac);
+	der_mac = nullptr;
+	der_mac_len = 0;
+	unsigned char* der_mac_rsa = nullptr;
+	entity->load_RSA_public_key();
+	entity->load_RSA_key_mac(&der_mac_rsa, &der_mac_len);
+	if (!entity->verify_public_key_mac(entity->get_RSA_pub_key_file(),der_mac_rsa, der_mac_len)) {
+		std::cerr << "Something went wrong while trying to establish the handshake: {entity with id: " << entity->get_id() << " doesn't have a valid public key}\n";
+		return false;
+	}
+	free(der_mac);
 	return true;
 }
 
-bool HandshakeManager::save_sym_elements()
+int HandshakeManager::save_sym_elements()
 {
 	SymElements* elements_data = SymElements_new();
 
@@ -100,9 +110,10 @@ bool HandshakeManager::save_sym_elements()
 	sym_file.write(reinterpret_cast<const char*>(base64_sym), base64_output_len);
 
 	sym_file.close();
-	free(base64_sym);
+
 	SymElements_free(elements_data);
-	return true;
+	this->handshakes_counter += 1;
+	return (this->handshakes_counter - 1);
 }
 
 bool HandshakeManager::establish_handshake()
@@ -124,7 +135,6 @@ bool HandshakeManager::establish_handshake()
 
 	const EC_GROUP* group = EC_KEY_get0_group(entityA_key);
 	EC_POINT* shared_point = EC_POINT_new(group);
-
 	if (!EC_POINT_mul(group, shared_point, NULL, pub_key_B, priv_key_A, NULL)) {
 		std::cerr << "Something went wrong while trying to establish the handshake: {can't calculate EC_POINT_mul}\n";
 		return false;
@@ -134,27 +144,30 @@ bool HandshakeManager::establish_handshake()
 	BIGNUM* y = BN_new();
 
 	if (!EC_POINT_get_affine_coordinates_GFp(group, shared_point, x, y, NULL)) {
+
 		std::cerr << "Something went wrong while trying to establish the handshake: {can't get the coordinates for shared point}\n";
+
 		return false;
+
 	}
 
 	unsigned char x_coord[COORD_LEN];
 	unsigned char y_coord[COORD_LEN];
 
-	if(BN_bn2binpad(x, x_coord, COORD_LEN<=0))
+	if (BN_bn2binpad(x, x_coord, COORD_LEN) <= 0)
 		std::cerr << "Something went wrong while trying to establish the handshake: {can't convert x coordinates in binary}\n";
 
-	if (BN_bn2binpad(y, y_coord, COORD_LEN <= 0))
+	if (BN_bn2binpad(y, y_coord, COORD_LEN) <= 0)
 		std::cerr << "Something went wrong while trying to establish the handshake: {can't convert y coordinates in binary}\n";
 
 	unsigned char* x_coord_hash = (unsigned char*)malloc(COORD_LEN);
 
 	EVP_MD_CTX* digest_ctx = EVP_MD_CTX_new();
 
-	EVP_DigestInit_ex(digest_ctx,EVP_sha256(),NULL);
-	EVP_DigestUpdate(digest_ctx,x_coord,COORD_LEN);
+	EVP_DigestInit_ex(digest_ctx, EVP_sha256(), NULL);
+	EVP_DigestUpdate(digest_ctx, x_coord, COORD_LEN);
 	unsigned int hash_len;
-	EVP_DigestFinal(digest_ctx,x_coord_hash,&hash_len);
+	EVP_DigestFinal(digest_ctx, x_coord_hash, &hash_len);
 	if (hash_len == 0) {
 		std::cerr << "Something went wrong while trying to establish the handshake: {hashing the x_coord failed}\n";
 		return false;
@@ -164,7 +177,7 @@ bool HandshakeManager::establish_handshake()
 	unsigned char* lsb = (unsigned char*)malloc(SYMKEY_LEN);
 	unsigned char* sym_left = (unsigned char*)malloc(SYMKEY_LEN);
 	memcpy(msb, x_coord_hash, SYMKEY_LEN);
-	memcpy(lsb, x_coord_hash+16, SYMKEY_LEN);
+	memcpy(lsb, x_coord_hash + 16, SYMKEY_LEN);
 
 	for (int i = 0; i < SYMKEY_LEN; i++)
 		sym_left[i] = msb[i] ^ lsb[i];
@@ -174,18 +187,21 @@ bool HandshakeManager::establish_handshake()
 	EVP_MD_CTX_free(digest_ctx);
 
 	unsigned char* sym_right = (unsigned char*)malloc(SYMKEY_LEN);
-	if (PKCS5_PBKDF2_HMAC((const char*)y_coord, COORD_LEN, NULL, 0, 10000, EVP_sha384(), 48, sym_right) != 1) {
+	unsigned char* output = (unsigned char*)malloc(SYMKEY_LEN * 2);
+	if (PKCS5_PBKDF2_HMAC((const char*)y_coord, COORD_LEN, NULL, 0, 10000, EVP_sha384(), SYMKEY_LEN * 2, output) != 1) {
 		std::cerr << "Something went wrong while trying to establish the handshake: {failed to apply PBKDF2 for y_coord}\n";
 		return false;
 	}
+	memcpy(sym_right, output, SYMKEY_LEN);
 
 	this->sym_key = (unsigned char*)malloc(SYMKEY_LEN);
 	for (int i = 0; i < SYMKEY_LEN; i++)
 		sym_key[i] = sym_left[i] ^ sym_right[i];
 
 	this->iv = (unsigned char*)malloc(IV_LEN);
-	memcpy(iv, sym_right + SYMKEY_LEN, IV_LEN);
+	memcpy(iv, output + SYMKEY_LEN, IV_LEN);
 
+	free(output);
 	return true;
 }
 
