@@ -135,15 +135,24 @@
   <ItemGroup>
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="HandshakeManager.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="PubKeyMAC_Asn1.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SymElements_Asn1.cpp" />
+    <ClCompile Include="TransactionsManager.cpp" />
+    <ClCompile Include="Transaction_Asn1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h" />
     <ClInclude Include="HandshakeManager.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="PubKeyMAC_Asn1.h" />
     <ClInclude Include="SymElements_Asn1.h" />
+    <ClInclude Include="TransactionsManager.h" />
+    <ClInclude Include="Transaction_Asn1.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="input.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
